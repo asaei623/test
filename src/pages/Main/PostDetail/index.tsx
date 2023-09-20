@@ -1,8 +1,7 @@
 import { Column, EntireContainer, Row } from 'assets/common';
 import { Header } from 'components/common/Header';
-import Homebar from 'components/common/Homebar';
 import CardSlider from 'components/common/CardSlider';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import { useParams } from 'react-router';
 import CommentScrapInfo from 'components/PostDetail/CommentScrapInfo';
 import ScrapButton from 'components/PostDetail/ScrapButton';
@@ -63,7 +62,7 @@ const PostDetail = () => {
         쥬시글
       </Header>
       {cards && (
-        <EntireContainer color={Palette.Gray05}>
+        <EntireContainer color={Palette().Gray05}>
           <Column gap={23}>
             <CardSlider cards={cards} />
             <Row justifyContent="space-between">

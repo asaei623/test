@@ -4,8 +4,10 @@ import { MyQnaListBox } from 'components/Mypage/MyQnaListBox';
 import { Waitingtab } from 'components/Mypage/WaitingTab';
 import { NoticeLabel } from 'components/common/NotcieLabel';
 import { useState } from 'react';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import Typo from 'styles/Typo';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 const fakeData = [
   {
@@ -74,7 +76,7 @@ const fakeData = [
 ];
 
 export const MyQna = () => {
-  let userType = 0; // 0은 주니어
+  const userType = useRecoilValue(userTypeState);
   let text = '쥬시 완료된 질문 ';
   const [nowTab, setNowTab] = useState(0); // index 가 0이면 완료 api 불러오기 , 1이면 대기 api 불러오기
 
@@ -93,12 +95,12 @@ export const MyQna = () => {
       </Header>
       <Waitingtab setNowTab={setNowTab} />
       <EntireContainer
-        background={`${Palette.Gray05}`}
+        background={`${Palette().Gray05}`}
         style={{ height: 'calc(100vh - 101px)' }}
       >
         <Row>
           <Typo.b2>{text} &nbsp;</Typo.b2>
-          <Typo.b2 color={Palette.Main}>12</Typo.b2>
+          <Typo.b2 color={Palette(userType).Main}>12</Typo.b2>
         </Row>
         {nowTab === 1 && (
           <NoticeLabel margin="20px 0 0 0">

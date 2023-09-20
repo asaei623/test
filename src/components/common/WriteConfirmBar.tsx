@@ -1,11 +1,15 @@
 import { Row } from 'assets/common';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 import styled from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import Typo from 'styles/Typo';
 
-const WriteConfirmBar = ({ userType }: { userType: number }) => {
+const WriteConfirmBar = () => {
+  const userType = useRecoilValue(userTypeState);
+
   const navigate = useNavigate();
   const onClickWrite = () => {
     const result = window.confirm('답변을 등록하겠습니까?');
@@ -24,11 +28,11 @@ const WriteConfirmBar = ({ userType }: { userType: number }) => {
 
   return (
     <Container>
-      <BtnDib color={Palette.White} onClick={onClickCancle}>
-        <Typo.h2 color={Palette.Gray4}>취소</Typo.h2>
+      <BtnDib color={Palette().White} onClick={onClickCancle}>
+        <Typo.h2 color={Palette().Gray4}>취소</Typo.h2>
       </BtnDib>
-      <BtnDib color={Palette.Main} onClick={onClickWrite}>
-        <Typo.h2 color={Palette.White}>작성완료</Typo.h2>
+      <BtnDib color={Palette(userType).Main} onClick={onClickWrite}>
+        <Typo.h2 color={Palette().White}>작성완료</Typo.h2>
       </BtnDib>
     </Container>
   );

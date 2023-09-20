@@ -2,7 +2,7 @@ import { Row } from 'assets/common';
 import styled from 'styled-components';
 import back from 'assets/icons/back.svg';
 import searchButton from 'assets/icons/search-button.svg';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import { useNavigate } from 'react-router';
 
 interface searchBarProps {
@@ -65,12 +65,12 @@ const SearchInputWrapper = styled(Row)`
 
   padding: 4px 16px;
   border-radius: 20px;
-  background: ${Palette.Gray1};
+  background: ${Palette().Gray1};
 `;
 const SearchInput = styled.input`
   width: 85%;
   border: none;
-  background: ${Palette.Gray1};
+  background: ${Palette().Gray1};
 
   font-family: PretendardMedium;
   font-size: 14px;

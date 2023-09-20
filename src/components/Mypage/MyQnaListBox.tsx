@@ -1,8 +1,10 @@
 import { styled } from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import Typo from 'styles/Typo';
 import { MyPageBoxContainer, Row } from 'assets/common';
 import { CategoryLabel } from 'components/Category/CategoryLabel';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 interface qnaBoxInterface {
   children: string;
@@ -19,41 +21,49 @@ export const MyQnaListBox = ({
   category,
   date,
 }: qnaBoxInterface) => {
-  let userType = 0; // userType 임시변수
+  const userType = useRecoilValue(userTypeState);
 
   return (
     <MyPageBoxContainer height="72px">
       <CountStick ansCount={count} userType={userType} />
       <SubContainer>
         <Row gap={3}>
-          <Typo.b3>{userType === 0 ? 'Q.' : 'A.'}</Typo.b3>
+          <Typo.b3>{userType === 1 ? 'A.' : 'Q.'}</Typo.b3>
           <Typo.b4>{children}</Typo.b4>
         </Row>
         <Row justifyContent="space-between" alignItems="center">
           <Row gap={10} alignItems="center">
             <CategoryLabel>{category}</CategoryLabel>
-            {count === 3 && <Typo.s2 color={Palette.Gray4}>{date}</Typo.s2>}
+            {count === 3 && <Typo.s2 color={Palette().Gray4}>{date}</Typo.s2>}
           </Row>
-          {count !== 3 && <Typo.s1 color={Palette.Main}>D-{dDay}</Typo.s1>}
+          {count !== 3 && (
+            <Typo.s1 color={Palette(userType).Main}>D-{dDay}</Typo.s1>
+          )}
         </Row>
       </SubContainer>
     </MyPageBoxContainer>
   );
 };
 
-const CountStick = styled.div<{ ansCount?: number; userType?: number }>`
+const CountStick = styled.div<{ ansCount?: number; userType: number }>`
   width: 7px;
   height: 100%;
   background: ${({ ansCount, userType }) =>
     ansCount == 0
-      ? Palette.Gray2
+      ? Palette().Gray2
       : ansCount == 1
-      ? `linear-gradient(to top, ${Palette.Main50} 33.3%, ${Palette.Gray2} 33.3%)`
+      ? `linear-gradient(to top, ${Palette(userType).Main50} 33.3%, ${
+          Palette().Gray2
+        } 33.3%)`
       : ansCount == 2
-      ? `linear-gradient(to top, ${Palette.Main50} 33.3%, ${Palette.Main50} 33.3%, ${Palette.Main80} 33.3%, ${Palette.Main80} 66.6%, ${Palette.Gray2} 66.6%)`
+      ? `linear-gradient(to top, ${Palette(userType).Main50} 33.3%, ${
+          Palette(userType).Main50
+        } 33.3%, ${Palette(userType).Main80} 33.3%, ${
+          Palette(userType).Main80
+        } 66.6%, ${Palette().Gray2} 66.6%)`
       : ansCount == 3
-      ? Palette.Main
-      : Palette.Black};
+      ? Palette(userType).Main
+      : Palette().Black};
   border-radius: 5px 0 0 5px;
 `;
 const SubContainer = styled.div`

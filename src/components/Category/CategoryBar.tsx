@@ -3,6 +3,8 @@ import Category from './Category';
 import { useState } from 'react';
 import { Column, Row } from 'assets/common';
 import Typo from 'styles/Typo';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 const CategoryBar = ({ ctgAll }: { ctgAll: boolean }) => {
   return (
@@ -14,6 +16,7 @@ const CategoryBar = ({ ctgAll }: { ctgAll: boolean }) => {
 };
 
 const Categories = ({ ctgAll }: { ctgAll: boolean }) => {
+  const userType = useRecoilValue(userTypeState);
   const ctgArr = ctgAll
     ? [
         { id: 1, name: '전체', selected: true },
@@ -49,6 +52,7 @@ const Categories = ({ ctgAll }: { ctgAll: boolean }) => {
           name={category.name}
           selected={category.selected}
           onClick={handleClick}
+          userType={userType}
         />
       ))}
     </CtgWrapper>

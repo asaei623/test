@@ -4,10 +4,14 @@ import { Header } from 'components/common/Header';
 import Homebar from 'components/common/Homebar';
 import { CTAText } from 'components/Main/CallToAction';
 import styled from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import Typo from 'styles/Typo';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 const Ask = () => {
+  const userType = useRecoilValue(userTypeState);
+
   return (
     <Column>
       <Header borderBottom={false}>질문하기</Header>
@@ -16,10 +20,12 @@ const Ask = () => {
           <CTAText />
           <InnerContents>
             <Row>
-              <Typo.b4 color={Palette.Main}>3개의 답변이 등록</Typo.b4>
-              <Typo.b4 color={Palette.Gray5}>되거나 3일이 지난 후, </Typo.b4>
+              <Typo.b4 color={Palette(userType).Main}>
+                3개의 답변이 등록
+              </Typo.b4>
+              <Typo.b4 color={Palette().Gray5}>되거나 3일이 지난 후, </Typo.b4>
             </Row>
-            <Typo.b4 color={Palette.Gray5}>
+            <Typo.b4 color={Palette().Gray5}>
               자동으로 쥬시글에 등록됩니다.
             </Typo.b4>
           </InnerContents>

@@ -1,6 +1,6 @@
 import { Column, Row } from 'assets/common';
 import styled from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import commentCyni from 'assets/icons/comment-cyni.svg';
 import commentJuni from 'assets/icons/comment-juni.svg';
 import moreMenu from 'assets/icons/more-menu.svg';
@@ -25,15 +25,18 @@ const Comment = ({ userType, text, date }: commentProps) => {
       <Content justifyContent="space-between">
         <Column gap={9}>
           <Row>
-            <Typo.s1 color={Palette.Main}>
-              {userType === 1 ? '익명의 시니' : '익명의 주니'}
-            </Typo.s1>
+            {userType === 1 ? (
+              <Typo.s1 color={Palette().Blue}>'익명의 시니' </Typo.s1>
+            ) : (
+              <Typo.s1 color={Palette().Orange}>'익명의 주니'</Typo.s1>
+            )}
+
             <DotWrapper>
               <Dot />
             </DotWrapper>
-            <Typo.s2 color={Palette.Gray4}>{date}</Typo.s2>
+            <Typo.s2 color={Palette().Gray4}>{date}</Typo.s2>
           </Row>
-          <Typo.s2 color={Palette.Gray6}>{text}</Typo.s2>
+          <Typo.s2 color={Palette().Gray6}>{text}</Typo.s2>
         </Column>
       </Content>
       <Moremenu src={moreMenu} onClick={toggleModal}></Moremenu>
@@ -52,7 +55,7 @@ const Container = styled(Row)`
   gap: 10px;
 
   border-radius: 16px;
-  background: ${Palette.White};
+  background: ${Palette().White};
 `;
 const Content = styled(Row)`
   width: 100%;
@@ -62,7 +65,7 @@ const Dot = styled.div`
   height: 1.5px;
 
   border-radius: 50%;
-  background: ${Palette.Gray5};
+  background: ${Palette().Gray5};
 `;
 const DotWrapper = styled(Row)`
 height:100%

@@ -3,12 +3,16 @@ import WriteInputBox from 'components/common/WriteInputBox';
 import { QDetailCard } from 'components/common/Card';
 import { Header } from 'components/common/Header';
 import WriteConfirmBar from 'components/common/WriteConfirmBar';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 const WriteAnswer = () => {
+  const userType = useRecoilValue(userTypeState);
+
   return (
     <Column>
-      <Header borderBottom={true} color={Palette.Main}>
+      <Header borderBottom={true} color={Palette(userType).Main}>
         답변하기
       </Header>
       <EntireContainer>
@@ -20,7 +24,7 @@ const WriteAnswer = () => {
           />
         </Column>
       </EntireContainer>
-      <WriteConfirmBar userType={2} />
+      <WriteConfirmBar />
     </Column>
   );
 };

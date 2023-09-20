@@ -12,10 +12,12 @@ import mypageOnCyni from '@assets/icons/mypage-on-cyni.svg';
 import Typo from 'styles/Typo';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 const Homebar = () => {
   const { pathname } = useLocation();
-  let userType = 2; //임시 변수
+  const userType = useRecoilValue(userTypeState);
 
   const [icons, setIcons] = useState({
     isAnsOn: false,

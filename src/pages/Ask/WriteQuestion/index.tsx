@@ -5,8 +5,10 @@ import WriteConfirmBar from 'components/common/WriteConfirmBar';
 import WriteInputBox from 'components/common/WriteInputBox';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import Typo from 'styles/Typo';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 const WriteQuestion = () => {
   return (
@@ -29,12 +31,13 @@ const WriteQuestion = () => {
           />
         </Column>
       </EntireContainer>
-      <WriteConfirmBar userType={2} />
+      <WriteConfirmBar />
     </Column>
   );
 };
 
 const Title = () => {
+  const userType = useRecoilValue(userTypeState);
   const [text, setText] = useState<string>('');
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newText = event.target.value;
@@ -50,6 +53,7 @@ const Title = () => {
       value={text}
       onChange={handleTextChange}
       placeholder="제목을 입력하세요"
+      userType={userType}
     ></TitleInput>
   );
 };
@@ -59,10 +63,10 @@ export default WriteQuestion;
 const CtgWrapper = styled(CategoryBar.container)`
   padding: 0px;
 `;
-const TitleInput = styled.input`
+const TitleInput = styled.input<{ userType: number }>`
   width: 100%;
   padding: 12px 10px;
-  border: 1px solid ${Palette.Gray4};
+  border: 1px solid ${Palette().Gray4};
   border-radius: 4px;
 
   font-family: PretendardBold;
@@ -70,10 +74,10 @@ const TitleInput = styled.input`
   line-height: 150%;
 
   &:focus {
-    border: 1px solid ${Palette.Main};
+    border: 1px solid ${({ userType }) => Palette(userType).Main};
     outline: none;
   }
   ::placeholder {
-    color: #${Palette.Gray4};
+    color: #${Palette().Gray4};
   }
 `;

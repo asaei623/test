@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import answerJuni from '@assets/icons/answer-juni.svg';
 import answerCyni from '@assets/icons/answer-cyni.svg';
 import questionJuni from '@assets/icons/question-juni.svg';
@@ -10,13 +10,15 @@ import Typo from 'styles/Typo';
 import { Column, Row, StyledLink } from 'assets/common';
 import { ShortBtn } from './Button';
 import { CategoryLabel } from 'components/Category/CategoryLabel';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 /* Card components */
 
 // main page
 export const QTitleCard = () => {
   return (
-    <Container height={317} color={Palette.White} gap={16}>
+    <Container height={317} color={Palette().White} gap={16}>
       <Tag tagType={'question'}>
         <CategoryLabel>일상</CategoryLabel>
       </Tag>
@@ -26,12 +28,14 @@ export const QTitleCard = () => {
   );
 };
 export const QContentCard = () => {
+  const userType = useRecoilValue(userTypeState);
+
   return (
-    <Container height={317} color={Palette.Main05} gap={14}>
+    <Container height={317} color={Palette(userType).Main05} gap={14}>
       <Tag tagType={'question'}>
-        <Typo.b2 color={Palette.Main}>질문 내용</Typo.b2>
+        <Typo.b2 color={Palette(userType).Main}>질문 내용</Typo.b2>
       </Tag>
-      <ScrollBox>
+      <ScrollBox userType={userType}>
         로렘 입숨(lorem ipsum; 줄여서 립숨, lipsum)은 출판이나 그래픽 디자인
         분야에서 폰트, 타이포그래피, 레이아웃 같은 그래픽 요소나 시각적 연출을
         보여줄 때 사용하는 표준 채우기 텍스트로, 최종 결과물에 들어가는 실제적인
@@ -56,12 +60,14 @@ export const QContentCard = () => {
   );
 };
 export const AnsCard = () => {
+  const userType = useRecoilValue(userTypeState);
+
   return (
-    <Container height={317} color={Palette.Main15} gap={14}>
+    <Container height={317} color={Palette().Main15} gap={14}>
       <Tag tagType={'answer'}>
-        <Typo.b2 color={Palette.Main}>익명의 시니어</Typo.b2>
+        <Typo.b2 color={Palette().Main}>익명의 시니어</Typo.b2>
       </Tag>
-      <ScrollBox>
+      <ScrollBox userType={userType}>
         로렘 입숨(lorem ipsum; 줄여서 립숨, lipsum)은 출판이나 그래픽 디자인
         분야에서 폰트, 타이포그래피, 레이아웃 같은 그래픽 요소나 시각적 연출을
         보여줄 때 사용하는 표준 채우기 텍스트
@@ -73,7 +79,7 @@ export const AnsCard = () => {
 // answer page
 export const AnsButtonCard = () => {
   return (
-    <ABContainer color={Palette.White} gap={16} height={277}>
+    <ABContainer color={Palette().White} gap={16} height={277}>
       <Column gap={10}>
         <Tag tagType={'question'}>
           <CategoryLabel>일상</CategoryLabel>
@@ -92,7 +98,7 @@ export const AnsButtonCard = () => {
 
 export const QDetailCard = () => {
   return (
-    <QDContainer color={Palette.Sub.blue} gap={20}>
+    <QDContainer color={Palette().Sub.blue} gap={20}>
       <Row gap={10}>
         <img src={questionBlack}></img>
         <Typo.h2>장례식에서 조례금을 얼마정도 하는게 좋을까요?</Typo.h2>
@@ -118,7 +124,7 @@ interface tagProps {
   tagType: string;
 }
 const Tag = ({ children, tagType }: tagProps) => {
-  const userType = 1;
+  const userType = useRecoilValue(userTypeState);
 
   let tagImg: any = defaultTag;
   switch (tagType) {
@@ -138,7 +144,7 @@ const Tag = ({ children, tagType }: tagProps) => {
   );
 };
 const Date = ({ children }: { children: string }) => {
-  return <Typo.s2 color={Palette.Gray5}>{children}</Typo.s2>;
+  return <Typo.s2 color={Palette().Gray5}>{children}</Typo.s2>;
 };
 
 /* styles */
@@ -150,7 +156,7 @@ const Container = styled(Column)<{ height?: number; color: string }>`
   padding: 27px 28px;
 
   border-radius: 16px;
-  border: 1.5px solid ${Palette.Main};
+  border: 1.5px solid ${Palette().Main};
   background: ${(props) => props.color};
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
@@ -174,7 +180,7 @@ const Icon = styled.img`
   width: 17.8px;
   height: 17.8px;
 `;
-const ScrollBox = styled(Typo.b3)`
+const ScrollBox = styled(Typo.b3)<{ userType: number }>`
   height: 100%;
   padding-right: 16px;
   overflow-x: auto;
@@ -184,12 +190,12 @@ const ScrollBox = styled(Typo.b3)`
   }
 
   &::-webkit-scrollbar-thumb {
-    background: ${Palette.Main50};
+    background: ${({ userType }) => Palette(userType).Main50};
     border-radius: 10px;
   }
 
   &::-webkit-scrollbar-track {
-    background: ${Palette.Gray1};
+    background: ${Palette().Gray1};
     border-radius: 10px;
   }
 `;

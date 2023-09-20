@@ -1,7 +1,9 @@
 import { Row } from 'assets/common';
 import { styled } from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import Typo from 'styles/Typo';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 interface submenuBoxInterface {
   children: React.ReactNode;
@@ -16,6 +18,8 @@ export const SubMenuBox = ({
   icon,
   borderRadius,
 }: submenuBoxInterface) => {
+  const userType = useRecoilValue(userTypeState);
+
   return (
     <Container borderRadius={borderRadius}>
       <Row
@@ -30,8 +34,8 @@ export const SubMenuBox = ({
         <Row gap={8}>
           {count !== -1 ? (
             <Row gap={3}>
-              <Typo.b2 color={Palette.Main}>{count}</Typo.b2>
-              <Typo.b2 color={Palette.Gray4}>개</Typo.b2>
+              <Typo.b2 color={Palette(userType).Main}>{count}</Typo.b2>
+              <Typo.b2 color={Palette().Gray4}>개</Typo.b2>
             </Row>
           ) : (
             <></>
@@ -50,5 +54,5 @@ export const Container = styled.div<{ borderRadius?: string }>`
   height: 75px;
   border-radius: 10px;
   padding: 25px 15px;
-  background: ${Palette.White};
+  background: ${Palette().White};
 `;

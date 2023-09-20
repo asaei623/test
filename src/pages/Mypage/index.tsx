@@ -5,8 +5,10 @@ import Homebar from 'components/common/Homebar';
 import { SubMenuBox } from 'components/Mypage/SubMenuBox';
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import Typo from 'styles/Typo';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 export interface mypageMenuInterface {
   link: string;
@@ -16,25 +18,25 @@ export interface mypageMenuInterface {
 }
 
 export const Mypage = () => {
-  let userType = 0;
+  const userType = useRecoilValue(userTypeState);
   let icon = 'juniIcon';
 
-  userType === 0 ? (icon = 'juniIcon') : (icon = 'cyniIcon');
+  userType === 1 ? (icon = 'cyniIcon') : (icon = 'juniIcon');
 
   return (
     <>
       <Header
         borderBottom={false}
-        color={`${Palette.Main}`}
-        background={`${Palette.Gray05}`}
+        color={`${Palette(userType).Main}`}
+        background={`${Palette().Gray05}`}
       >
         MY
       </Header>
-      <EntireContainer homebar={true} background={`${Palette.Gray05}`}>
+      <EntireContainer homebar={true} background={`${Palette().Gray05}`}>
         <Row justifyContent="space-between" alignItems="center">
           <Column>
             <Typo.h4>안녕하세요</Typo.h4>
-            <UnderLine>
+            <UnderLine userType={userType}>
               <Typo.h2>김쥬니</Typo.h2>
               <Typo.h4> &nbsp; 님</Typo.h4>
             </UnderLine>
@@ -67,18 +69,18 @@ export const Mypage = () => {
         <Column gap={15}>
           <Row alignItems="center" gap={10}>
             <StyledLink to="/myPage/provision" state={{ page: '이용약관' }}>
-              <Typo.b3 color={Palette.Gray4}>이용약관</Typo.b3>
+              <Typo.b3 color={Palette().Gray4}>이용약관</Typo.b3>
             </StyledLink>
             <Circle />
             <StyledLink
               to="/myPage/provision"
               state={{ page: '개인정보처리방침' }}
             >
-              <Typo.b3 color={Palette.Gray4}>개인정보처리방침</Typo.b3>
+              <Typo.b3 color={Palette().Gray4}>개인정보처리방침</Typo.b3>
             </StyledLink>
           </Row>
           <StyledLink to="">
-            <Typo.b3 color={Palette.Gray4}>
+            <Typo.b3 color={Palette().Gray4}>
               Copyright ⓒ Juitcy All rights reserved.
             </Typo.b3>
           </StyledLink>
@@ -91,21 +93,22 @@ export const Mypage = () => {
 
 const StyledLink = styled(Link)<{ margin?: number }>`
   text-decoration: none;
-  color: ${Palette.Black};
+  color: ${Palette().Black};
   margin: ${({ margin }) => (margin ? `0px ${margin}px` : '0px')};
 `;
-const UnderLine = styled.div`
+const UnderLine = styled.div<{ userType: number }>`
   display: flex;
   width: fit-content;
   background: linear-gradient(
     to top,
-    ${Palette.Main15} 33.3%,
-    ${Palette.Gray05} 33.3%
+    ${({ userType }) => Palette(userType).Main15} 33.3%,
+    ${Palette().Gray05} 33.3%
   );
 `;
+
 const Circle = styled.div`
   width: 2px;
   height: 2px;
   border-radius: 50%;
-  background: ${Palette.Gray4};
+  background: ${Palette().Gray4};
 `;

@@ -2,7 +2,7 @@ import { Column } from 'assets/common';
 import { Header } from 'components/common/Header';
 import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import Typo from 'styles/Typo';
 
 export const Provision = () => {
@@ -15,7 +15,7 @@ export const Provision = () => {
         이용약관
       </Header>
       <Container padding="10px 0 0 0">
-        <Container background={`${Palette.White}`} padding="30px">
+        <Container background={`${Palette().White}`} padding="30px">
           <Typo.h1>
             {page === '이용약관'
               ? '쥬잇씨 이용약관'
@@ -68,12 +68,13 @@ export const Provision = () => {
 
 const Container = styled.div<{ padding?: string; background?: string }>`
   width: 100%;
-  background: ${({ background }) => (background ? background : Palette.Gray05)};
+  background: ${({ background }) =>
+    background ? background : Palette().Gray05};
   padding: ${({ padding }) => (padding ? padding : 0)};
 `;
 const Line = styled.div`
   width: 100%;
   height: 1.5px;
-  background: ${Palette.Gray4};
+  background: ${Palette().Gray4};
   margin: 9px 0 15px 0;
 `;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import Typo from 'styles/Typo';
 
 interface tabInterface {
@@ -28,7 +28,7 @@ export const Waitingtab = ({ setNowTab }: { setNowTab: any }) => {
           borderHeight={index === clickNum ? 3 : 0}
         >
           <Typo.h4
-            color={index === clickNum ? Palette.Black : Palette.Gray4}
+            color={index === clickNum ? Palette().Black : Palette().Gray4}
           >{`${tab.label} ${tab.status}`}</Typo.h4>
         </SubContainer>
       ))}
@@ -43,7 +43,7 @@ const Container = styled.div`
   width: 100%;
   height: 41px;
   padding: 0 25px;
-  border-bottom: ${Palette.Gray2} 1px solid;
+  border-bottom: ${Palette().Gray2} 1px solid;
 `;
 const SubContainer = styled.div<{ borderHeight?: number }>`
   display: flex;
@@ -51,5 +51,5 @@ const SubContainer = styled.div<{ borderHeight?: number }>`
   justify-content: center;
   width: 100%;
   border-bottom: ${({ borderHeight }) =>
-    borderHeight ? `${Palette.Black} ${borderHeight}px solid` : 0};
+    borderHeight ? `${Palette().Black} ${borderHeight}px solid` : 0};
 `;

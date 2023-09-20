@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 
 export const EntireContainer = styled.div<{
   homebar?: boolean;
   background?: string;
 }>`
   padding: 25px 30px;
-  background: ${({ background }) => (background ? background : Palette.White)};
+  background: ${({ background }) =>
+    background ? background : Palette().White};
   height: ${({ homebar }) =>
     homebar ? 'calc(100vh - 156px)' : 'calc(100vh - 60px)'};
   overflow: auto;
@@ -22,7 +23,7 @@ export const EntireContainer = styled.div<{
   }
   .mypage-submenu-subcontainer {
     height: fit-content;
-    background: ${Palette.White};
+    background: ${Palette().White};
     border-radius: 10px;
   }
   .mypage-list-container {
@@ -65,7 +66,7 @@ export const MyPageBoxContainer = styled.div<{
   height: ${({ height }) => (height ? height : 'fit-content')};
   border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : 5)}px;
   padding: ${({ padding }) => (padding ? padding : 0)};
-  background: ${Palette.White};
+  background: ${Palette().White};
   box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.1);
 `;
 
@@ -77,5 +78,5 @@ export const TextContainer = styled.div<{ gap?: number }>`
 
 export const StyledLink = styled(Link)<{ color?: string }>`
   text-decoration: none;
-  color: ${({ color }) => (color ? color : Palette.Black)};
+  color: ${({ color }) => (color ? color : Palette().Black)};
 `;

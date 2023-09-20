@@ -1,14 +1,18 @@
 import { Column } from 'assets/common';
 import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import Typo from 'styles/Typo';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 interface inputboxProps {
   placeholder: string;
   minHeight: number;
 }
 const WriteInputBox = ({ placeholder, minHeight }: inputboxProps) => {
+  const userType = useRecoilValue(userTypeState);
+
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [text, setText] = useState<string>('');
 
@@ -36,6 +40,7 @@ const WriteInputBox = ({ placeholder, minHeight }: inputboxProps) => {
         onChange={handleTextChange}
         placeholder={placeholder}
         minHeight={minHeight}
+        userType={userType}
       ></Input>
       <TypingLimit textLenght={text.length}></TypingLimit>
     </Container>
@@ -43,14 +48,16 @@ const WriteInputBox = ({ placeholder, minHeight }: inputboxProps) => {
 };
 
 const TypingLimit = ({ textLenght }: { textLenght: number }) => {
+  const userType = useRecoilValue(userTypeState);
+
   return (
     <Column alignItems="flex-end" gap={5}>
-      <Typo.b3 color={Palette.Main}>{textLenght} / 1000자</Typo.b3>
+      <Typo.b3 color={Palette(userType).Main}>{textLenght} / 1000자</Typo.b3>
       <Column alignItems="flex-end">
-        <Typo.s1 color={Palette.Gray4}>
+        <Typo.s1 color={Palette().Gray4}>
           3개의 답변이 등록되거나 3일이 지난 후,
         </Typo.s1>
-        <Typo.s1 color={Palette.Gray4}>자동으로 쥬시글에 등록됩니다·</Typo.s1>
+        <Typo.s1 color={Palette().Gray4}>자동으로 쥬시글에 등록됩니다·</Typo.s1>
       </Column>
     </Column>
   );
@@ -62,7 +69,7 @@ const Container = styled(Column)`
   width: 100%;
   gap: 11px;
 `;
-const Input = styled.textarea<{ minHeight: number }>`
+const Input = styled.textarea<{ minHeight: number; userType: number }>`
   width: 100%;
   min-height: ${({ minHeight }) => minHeight}px;
   height: textareaHeight;
@@ -75,15 +82,15 @@ const Input = styled.textarea<{ minHeight: number }>`
   padding: 20px;
 
   border-radius: 12px;
-  border: 1.5px solid ${Palette.Gray4};
-  background: ${Palette.White};
+  border: 1.5px solid ${Palette().Gray4};
+  background: ${Palette().White};
 
   font-family: PretendardMedium;
   font-size: 14px;
   line-height: 150%;
 
   &:focus {
-    border: 1.5px solid ${Palette.Main};
+    border: 1.5px solid ${(props) => Palette(props.userType).Main};
     outline: none;
   }
 

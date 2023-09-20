@@ -2,12 +2,15 @@ import { Row } from 'assets/common';
 import styled from 'styled-components';
 import commentCyni from 'assets/icons/comment-cyni.svg';
 import commentJuni from 'assets/icons/comment-juni.svg';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import Typo from 'styles/Typo';
 import { useState, useEffect, useRef } from 'react';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 const CommentInputBox = () => {
-  let userType = 1;
+  const userType = useRecoilValue(userTypeState);
+
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [text, setText] = useState<string>('');
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -32,7 +35,7 @@ const CommentInputBox = () => {
   return (
     <Container>
       <img src={userType === 1 ? commentCyni : commentJuni}></img>
-      <TextInputWrapper>
+      <TextInputWrapper userType={userType}>
         <TextInput
           ref={textareaRef}
           value={text}
@@ -41,7 +44,11 @@ const CommentInputBox = () => {
             userType === 1 ? '시니' : '쥬니'
           }로 댓글 달기...`}
         ></TextInput>
-        {text && <SendButton onClick={handleClickSend}>게시</SendButton>}
+        {text && (
+          <SendButton userType={userType} onClick={handleClickSend}>
+            게시
+          </SendButton>
+        )}
       </TextInputWrapper>
     </Container>
   );
@@ -55,12 +62,12 @@ const Container = styled(Row)`
   gap: 9px;
 
   box-shadow: -4px 0px 10px 0px rgba(0, 0, 0, 0.1);
-  background: ${Palette.White};
+  background: ${Palette().White};
 
   position: fixed;
   bottom: 0;
 `;
-const TextInputWrapper = styled(Row)`
+const TextInputWrapper = styled(Row)<{ userType: number }>`
   width: 100%;
   height: 100%;
   padding: 5px 14px;
@@ -68,10 +75,10 @@ const TextInputWrapper = styled(Row)`
   justify-content: space-between;
 
   border-radius: 17.5px;
-  border: 1px solid ${Palette.Gray2};
+  border: 1px solid ${Palette().Gray2};
 
   &:focus-within {
-    border: 1px solid ${Palette.Main50};
+    border: 1px solid ${({ userType }) => Palette(userType).Main50};
     outline: none;
 `;
 const TextInput = styled.textarea`
@@ -89,10 +96,10 @@ const TextInput = styled.textarea`
     outline: none;
 
   ::placeholder {
-    color: ${Palette.Gray3};
+    color: ${Palette().Gray3};
   }
 `;
-const SendButton = styled(Typo.b3)`
-  color: ${Palette.Main};
+const SendButton = styled(Typo.b3)<{ userType: number }>`
+  color: ${({ userType }) => Palette(userType).Main};
   cursor: pointer;
 `;

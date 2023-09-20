@@ -3,10 +3,12 @@ import scrapOnCyni from 'assets/icons/scrap-on-cyni.svg';
 import scrapOnJuni from 'assets/icons/scrap-on-juni.svg';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 const ScrapButton = () => {
   const [isScraped, setIsScraped] = useState<boolean>(false);
-  let userType = 1;
+  const userType = useRecoilValue(userTypeState);
 
   const handleClick = () => {
     setIsScraped(!isScraped);

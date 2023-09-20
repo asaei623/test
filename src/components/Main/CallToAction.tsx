@@ -1,8 +1,10 @@
 import { Column, Row, StyledLink } from 'assets/common';
 import { CTABtn } from 'components/common/Button';
 import styled from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import Typo from 'styles/Typo';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 const CallToAction = () => {
   return (
@@ -15,10 +17,12 @@ const CallToAction = () => {
 };
 
 export const CTAText = () => {
+  const userType = useRecoilValue(userTypeState);
+
   return (
     <Column>
       <Row>
-        <Typo.h1 color={Palette.Main}>경험 많은</Typo.h1>
+        <Typo.h1 color={Palette(userType).Main}>경험 많은</Typo.h1>
         <Typo.h1>&nbsp;시니어 분들에게</Typo.h1>
       </Row>
       <Typo.h1>질문해보세요.✍🏻</Typo.h1>
@@ -34,7 +38,7 @@ const Container = styled(Column)`
   justify-content: space-between;
   padding: 35px 30px;
 
-  background: ${Palette.Sub.blue};
+  background: ${Palette().Sub.blue};
   position: relative;
 `;
 const Img = styled.img`

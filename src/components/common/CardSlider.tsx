@@ -1,13 +1,15 @@
-import { Column, Row } from 'assets/common';
-import { AnsCard, QContentCard, QTitleCard } from 'components/common/Card';
+import { Column } from 'assets/common';
 import { useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { styled } from 'styled-components';
 import PageIndicator, { Dot } from '../Main/PageIndicator';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 const CardSlider = ({ cards }: { cards: React.ReactNode[] }) => {
+  const userType = useRecoilValue(userTypeState);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const settings = {
     dots: false,
@@ -28,7 +30,11 @@ const CardSlider = ({ cards }: { cards: React.ReactNode[] }) => {
       </StyledSlider>
       <PageIndicator>
         {Array.from({ length: cards.length }, (_, index) => (
-          <Dot key={index} selected={index === currentSlide} />
+          <Dot
+            key={index}
+            selected={index === currentSlide}
+            userType={userType}
+          />
         ))}
       </PageIndicator>
     </Wrapper>

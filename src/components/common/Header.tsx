@@ -1,10 +1,12 @@
 import { Row, StyledLink } from 'assets/common';
 import styled from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import Typo from 'styles/Typo';
 import search from '@assets/icons/search.svg';
 import back from '@assets/icons/back.svg';
 import { useNavigate } from 'react-router';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 interface headerProps {
   btn?: string;
@@ -22,9 +24,14 @@ export const Header = ({
   background,
 }: headerProps) => {
   const navigate = useNavigate();
+  const userType = useRecoilValue(userTypeState);
 
   return (
-    <Container borderBottom={borderBottom} background={background}>
+    <Container
+      borderBottom={borderBottom}
+      background={background}
+      userType={userType}
+    >
       <img src={btn === 'back' && back} onClick={() => navigate(-1)}></img>
       <Typo.h2 color={color}>{children}</Typo.h2>
       <StyledLink to="/search">
@@ -34,7 +41,11 @@ export const Header = ({
   );
 };
 
-const Container = styled(Row)<{ borderBottom?: boolean; background?: string }>`
+const Container = styled(Row)<{
+  borderBottom?: boolean;
+  background?: string;
+  userType: number;
+}>`
   width: 100%;
   height: 60px;
   align-items: center;
@@ -42,7 +53,8 @@ const Container = styled(Row)<{ borderBottom?: boolean; background?: string }>`
 
   padding: 0px 30px;
 
-  border-bottom: ${({ borderBottom }) =>
-    borderBottom === false ? 'none' : `1px solid ${Palette.Main}`};
-  background: ${({ background }) => (background ? background : Palette.White)};
+  border-bottom: ${({ borderBottom, userType }) =>
+    borderBottom === false ? 'none' : `1px solid ${Palette(userType).Main}`};
+  background: ${({ background }) =>
+    background ? background : Palette().White};
 `;

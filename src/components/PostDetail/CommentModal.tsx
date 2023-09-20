@@ -1,6 +1,6 @@
 import { Column, Row } from 'assets/common';
 import styled from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import Typo from 'styles/Typo';
 import edit from 'assets/icons/edit.svg';
 import deleteComment from 'assets/icons/delete-comment.svg';
@@ -75,7 +75,7 @@ const Modal = styled(Column)`
   gap: 18px;
 
   border-radius: 15px;
-  background: ${Palette.White};
+  background: ${Palette().White};
 
   cursor: default;
 `;

@@ -1,11 +1,14 @@
 import { Column, Row } from 'assets/common';
 import CardSlider from 'components/common/CardSlider';
 import styled from 'styled-components';
-import { Palette } from 'styles/Palette';
+import Palette from 'styles/Palette';
 import Typo from 'styles/Typo';
 import { QTitleCard, QContentCard, AnsCard } from 'components/common/Card';
+import { useRecoilValue } from 'recoil';
+import { userTypeState } from 'recoil/state';
 
 const SearchResult = ({ text }: { text: string }) => {
+  const userType = useRecoilValue(userTypeState);
   let resultNum = 23;
   const cards = [
     <QTitleCard></QTitleCard>,
@@ -20,7 +23,7 @@ const SearchResult = ({ text }: { text: string }) => {
       <Row>
         <Typo.b3>'{text}'</Typo.b3>
         <Typo.b4>에 대한 검색 결과</Typo.b4>
-        <Typo.b3 color={Palette.Main}>&nbsp; {resultNum}</Typo.b3>
+        <Typo.b3 color={Palette(userType).Main}>&nbsp; {resultNum}</Typo.b3>
         <Typo.b4>개</Typo.b4>
       </Row>
       <ResultContainer>
